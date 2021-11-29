@@ -3,11 +3,14 @@ const {Schema} =require('mongoose');
 
 const membershipSchema = new Schema(
   {
-    name: {
-      type: String,
+    user: {
+      type: Object,
       required: true,
     },
-    type_membership: {
+    subscribe: {
+      type: String,
+    },
+    membership: {
       type: String,
       required: true,
     },
