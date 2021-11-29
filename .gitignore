@@ -1,0 +1,14 @@
+node_modules/
+npm-debug.log
+.DS_Store
+*.log
+*.env
+
+
+#dependency
+*.log
+*.env
+
+node_modules
+node_modules/
+node_modules/
