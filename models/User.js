@@ -23,7 +23,8 @@ const userSchema = new Schema(
       type: String,
     },
     membership: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'MemberShip',
     },
   },
   {

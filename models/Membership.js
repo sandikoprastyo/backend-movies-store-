@@ -1,22 +1,13 @@
+// relation type on NoSQL Embedded Document
 const mongoose = require('mongoose');
-const {Schema} =require('mongoose');
+const { Schema } = require('mongoose');
 
 const membershipSchema = new Schema(
   {
-    user: {
-      type: Object,
-      required: true,
-    },
-    subscribe: {
-      type: String,
-    },
-    membership: {
-      type: String,
-      required: true,
-    },
-    id_user: [{
+    membership_name: String,
+    user: [{
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User'
     }]
   },
   {

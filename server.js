@@ -40,10 +40,15 @@ mongoose.connect(
 const authRoutes = require('./routers/auth');
 const userRouter = require('./routers/user.js');
 const moviesRouter = require('./routers/movies.js');
+const membershipRouter = require('./routers/membership.js');
+
 
 app.use('/', authRoutes);
 app.use('/user', userRouter);
 app.use('/movies', moviesRouter);
+app.use('/membership', membershipRouter);
+
+
 
 app.listen(port, () => {
   console.log(`Server is running on port : http://localhost:${port}`);

@@ -42,7 +42,7 @@ exports.signup = (req, res, next) => {
       if (user) {
         return res
           .status(422)
-          .json({ errors: [{ message: 'email already exists' }] });
+          .json({ code: 422, errors: [{ message: 'email already exists' }] });
       } else {
         const user = new User({
           name: name,
@@ -58,13 +58,14 @@ exports.signup = (req, res, next) => {
               .save()
               .then((response) => {
                 res.status(200).json({
+                  code: 200,
                   success: true,
                   result: response,
                 });
               })
               .catch((err) => {
                 res.status(500).json({
-                  errors: [{ error: err }],
+                  errors: [{code: 500, error: err }],
                 });
               });
           });
@@ -101,6 +102,7 @@ exports.signin = (req, res) => {
     .then((User) => {
       if (!User) {
         return res.status(404).json({
+          code: 404,
           success: false,
           errors: [{ User: 'not found' }],
         });
@@ -112,6 +114,7 @@ exports.signin = (req, res) => {
               return res
                 .status(400)
                 .json({
+                  code: 400,
                   success: false,
                   errors: [{ password: 'incorrect' }]
                 });
@@ -119,6 +122,7 @@ exports.signin = (req, res) => {
 
             const tokens = jwt.sign({ _id: User._id }, process.env.TOKEN_SECRET,  { expiresIn: '1h' });
             res.header('token', tokens).json({
+              code: 200,
               success: true,
               token: tokens,
               message: User,
@@ -135,6 +139,7 @@ exports.signin = (req, res) => {
                 }
                 if (decoded) {
                   return res.status(200).json({
+                    code: 200,
                     success: true,
                     token: access_token,
                     message: User,
@@ -144,11 +149,11 @@ exports.signin = (req, res) => {
             );
           })
           .catch((err) => {
-            res.status(500).json({ erros: err });
+            res.status(500).json({ code: 500, erros: err });
           });
       }
     })
     .catch((err) => {
-      res.status(500).json({ erros: err });
+      res.status(500).json({ code: 500, erros: err });
     });
 };

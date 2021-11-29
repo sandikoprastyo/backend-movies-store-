@@ -1,20 +1,22 @@
 const router = require('express').Router();
 const User = require('../models/User.js');
-const verifyToken = require("./verifyToken");
+const verifyToken = require('./verifyToken');
 
 //! get all user
 router.get('/', (req, res) => {
   User.find()
-    .then((user) => res.json({
-      status: 200,
-      success: true,
-      message: user,
-    }))
+    .then((user) =>
+      res.json({
+        status: 200,
+        success: true,
+        message: user,
+      }),
+    )
     .catch((err) => res.status(400).json('Error: ' + err));
 });
 
 //! get by id user
-router.get('/:id', verifyToken, (req, res) => {
+router.get('/:id', (req, res) => {
   User.findById(req.params.id)
     .then((user) =>
       res.json({
@@ -35,33 +37,29 @@ router.delete('/:userId', verifyToken, async (req, res) => {
     res.json({
       status: 200,
       success: true,
-      message: "OK",
-      data: deleteUser
+      message: 'OK',
+      data: deleteUser,
     });
   } catch (err) {
     res.json({
-      message: err
+      message: err,
     });
   }
 });
 
 //! post data user
 router.post('/', async (req, res) => {
-  const dataUser = new User({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    phone: req.body.phone,
-  });
   try {
-    const saveUser = await dataUser.save();
-    res.json({
-      status: 200,
-      success: true,
-      message: saveUser
-    });
+    const user = new User(req.body);
+    await user.save();
+
+    const membership = await Membership.findById({ _id: user.membership })
+    membership.user.push(user)
+    await membership.save()
+
+    res.status(200).json({success: true, data: user})
   } catch (err) {
-    res.json({ message: err });
+    res.status(400).json({ success: false, message: err.message });
   }
 });
 
