@@ -34,4 +34,17 @@ router.post('/', async (req, res) => {
   }
 });
 
+//? get by id movies
+router.get('/:id', (req, res) => {
+  Movie.findById(req.params.id)
+    .then((movie) =>
+      res.json({
+        status: 200,
+        success: true,
+        message: movie,
+      }),
+    )
+    .catch((err) => res.status(400).json('Error: ' + err));
+});
+
 module.exports = router;

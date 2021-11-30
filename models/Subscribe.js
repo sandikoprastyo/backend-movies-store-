@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 
-const membershipSchema = new Schema(
+const subscribeSchema = new Schema(
   {
     name: {
       type: String,
@@ -18,16 +18,16 @@ const membershipSchema = new Schema(
     },
     subscribe: {
       type: String,
+      required: true,
     },
     membership: {
       type: String,
-      required: true,
     },
   },
   {
     timestamps: true,
-    collection: 'memberships',
+    collection: 'subscribes',
   },
 );
 
-module.exports = mongoose.model('Membership', membershipSchema);
+module.exports = mongoose.model('Subscribe', subscribeSchema);
